@@ -1,77 +1,84 @@
-import { useState } from "react";
+"use client";
 
+import { useSession } from "next-auth/react";
+import { signOut } from "next-auth/react";
+
+import Link from "next/link";
+
+import { LinkUI } from "./LinkUI";
 import {
   Navbar,
-  NavbarMenuToggle,
-  NavbarMenuItem,
-  NavbarMenu,
   NavbarContent,
   NavbarItem,
   NavbarBrand,
-  Link,
-} from "@nextui-org/react";
+} from "@nextui-org/navbar";
+import { Avatar } from "@nextui-org/avatar";
+import {
+  Dropdown,
+  DropdownTrigger,
+  DropdownMenu,
+  DropdownItem,
+} from "@nextui-org/dropdown";
+import { CircularProgress } from "@nextui-org/progress";
 
-import { NAVBAR_ITEMS } from "../../constants/navbarItems";
-import { ROUTES } from "../../constants/routes";
+import { DROPDOWN_ITEMS } from "@/constants/dropdownItem";
+import { ROUTES } from "@/constants/routes";
 
 export const NavbarComponent = () => {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { data: session, status } = useSession();
 
-  const handleOnClick = () => {
-    setIsMenuOpen(false);
+  const handleClick = () => {
+    signOut();
   };
 
   return (
-    <Navbar isBordered isMenuOpen={isMenuOpen} onMenuOpenChange={setIsMenuOpen}>
-      <NavbarContent className="sm:hidden" justify="start">
-        <NavbarMenuToggle
-          aria-label={isMenuOpen ? "Close menu" : "Open menu"}
-        />
-      </NavbarContent>
-
-      <NavbarContent className="sm:hidden pr-3" justify="center">
-        <NavbarBrand>
-          <Link
-            className="sm:hidden"
-            color="foreground"
-            href={`#${ROUTES.HOME.PATH}`}
-          >
-            <p className="sm:hidden font-bold">IB</p>
-          </Link>
-        </NavbarBrand>
-      </NavbarContent>
-
-      <NavbarContent className="hidden sm:flex gap-4" justify="start">
+    <Navbar isBordered>
+      <NavbarContent className="flex gap-4" justify="start">
         <NavbarBrand className="cursor-pointer">
-          <Link color="foreground" href={`#${ROUTES.HOME.PATH}`}>
-            <p className="font-bold">IB</p>
-          </Link>
+          <LinkUI href={ROUTES.HOME}>Short URL</LinkUI>
         </NavbarBrand>
 
-        {NAVBAR_ITEMS.map(({ NAME, PATH }, index) => (
-          <NavbarItem key={index}>
-            <Link size="sm" color="foreground" href={`#${PATH}`}>
-              {NAME}
-            </Link>
-          </NavbarItem>
-        ))}
-      </NavbarContent>
+        <NavbarItem>
+          {status === "loading" ? (
+            <CircularProgress
+              color="default"
+              size="sm"
+              aria-label="Loading.."
+            />
+          ) : (
+            <>
+              {session ? (
+                <Dropdown>
+                  <DropdownTrigger>
+                    <Avatar
+                      className="cursor-pointer"
+                      size="sm"
+                      src={session.user!.image!}
+                    />
+                  </DropdownTrigger>
 
-      <NavbarMenu>
-        {NAVBAR_ITEMS.map(({ NAME, PATH }, index) => (
-          <NavbarMenuItem key={index}>
-            <Link
-              onClick={handleOnClick}
-              color="foreground"
-              className="w-full"
-              href={`#${PATH}`}
-              size="lg"
-            >
-              {NAME}
-            </Link>
-          </NavbarMenuItem>
-        ))}
-      </NavbarMenu>
+                  <DropdownMenu variant="light" aria-label="Static Actions">
+                    {DROPDOWN_ITEMS.map(
+                      ({ TITLE, ICON, PATH, COLOR, EVENT }) => (
+                        <DropdownItem
+                          key={TITLE}
+                          startContent={ICON}
+                          color={COLOR ? "danger" : "default"}
+                          onClick={EVENT ? handleClick : () => {}}
+                        >
+                          <Link href={PATH}>{TITLE}</Link>
+                        </DropdownItem>
+                      )
+                    )}
+                  </DropdownMenu>
+                </Dropdown>
+              ) : (
+                <LinkUI href="/auth">Sign In</LinkUI>
+              )}
+            </>
+          )}
+        </NavbarItem>
+      </NavbarContent>
     </Navbar>
   );
 };

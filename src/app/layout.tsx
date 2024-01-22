@@ -10,17 +10,21 @@ export const metadata: Metadata = {
 };
 
 import { Providers } from "./Providers";
+import { NavbarComponent } from "@/components/Navbar";
 
-export default function RootLayout({
-  children,
-}: Readonly<{
+interface RootLayoutProps {
   children: React.ReactNode;
-}>) {
+}
+
+export default function RootLayout({ children }: RootLayoutProps) {
   return (
     <html lang="en">
-      <Providers>
-        <body className={inter.className}>{children}</body>
-      </Providers>
+      <body className={inter.className}>
+        <Providers>
+          <NavbarComponent />
+          <main className="p-4">{children}</main>
+        </Providers>
+      </body>
     </html>
   );
 }

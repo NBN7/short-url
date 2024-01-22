@@ -12,7 +12,8 @@ datasource db {
 
 model Link {
   id          Int     @id @default(autoincrement())
-  url         String  @unique
+  url         String
   shortUrl    String  @unique
   description String?
+  authorId    String
 }
