@@ -63,6 +63,7 @@ export const NavbarComponent = () => {
                         <DropdownItem
                           key={TITLE}
                           startContent={ICON}
+                          textValue={TITLE}
                           color={COLOR ? "danger" : "default"}
                           onClick={EVENT ? handleClick : () => {}}
                         >
