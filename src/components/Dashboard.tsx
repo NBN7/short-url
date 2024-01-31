@@ -33,14 +33,9 @@ export const Dashboard = async ({ session }: DashboardProps) => {
           <Card key={link.id}>
             <CardHeader className="justify-between">
               <div className="overflow-hidden">
-                <LinkUI
-                  href={`/z/${link.shortUrl}`}
-                  style="text-lg font-semibold"
-                >
-                  /z/{link.shortUrl}
-                </LinkUI>
+                <LinkUI href={`/z/${link.shortUrl}`}>/z/{link.shortUrl}</LinkUI>
                 <p className="text-gray-400 truncate">{link.url}</p>
-                <p className="truncate">{link.description}</p>
+                {/* <p className="truncate">{link.description}</p> */}
               </div>
 
               <Tooltip content="More" delay={1000} closeDelay={0}>

@@ -3,14 +3,14 @@ import Link from "next/link";
 interface LinkUIProps {
   children: React.ReactNode;
   href: string;
-  style?: string;
+  size?: string;
 }
 
-export const LinkUI = ({ children, href, style }: LinkUIProps) => {
+export const LinkUI = ({ children, href, size }: LinkUIProps) => {
   return (
     <Link
       href={href}
-      className={`text-sm hover:opacity-75 transition-all truncate ${style}`}
+      className="text-sm hover:opacity-75 transition-all truncate"
     >
       {children}
     </Link>
