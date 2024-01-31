@@ -10,6 +10,8 @@ import { AboveTheFold } from "@/components/AboveTheFold";
 
 import { Button } from "@nextui-org/button";
 
+import { ROUTES } from "@/constants/routes";
+
 import { FaGithub } from "react-icons/fa";
 
 export default function AuthPage() {
@@ -33,7 +35,7 @@ export default function AuthPage() {
 
   useEffect(() => {
     if (session) {
-      router.push("/");
+      router.push(ROUTES.HOME);
     }
   }, [session]);
 
