@@ -1,13 +1,13 @@
 import { ROUTES } from "@/constants/routes";
 
-import { FaPlus } from "react-icons/fa";
+import { FiPlus } from "react-icons/fi";
 import { MdSpaceDashboard } from "react-icons/md";
 import { MdLogout } from "react-icons/md";
 
 export const DROPDOWN_ITEMS = [
   {
     TITLE: "Create new link",
-    ICON: <FaPlus />,
+    ICON: <FiPlus />,
     PATH: ROUTES.DASHBOARD,
   },
   {
