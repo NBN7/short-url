@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { signIn } from "next-auth/react";
@@ -15,27 +15,34 @@ export default function AuthPage() {
   const { data: session } = useSession();
   const router = useRouter();
 
+  const [isLoading, setIsLoading] = useState(false);
+
   const props = {
     title: "Welcome!",
     description: "Sign In to make the most of the app",
   };
 
-  const handleClick = () => {
-    signIn("github");
+  const handleClick = async () => {
+    setIsLoading(true);
+
+    await signIn("github");
+
+    setIsLoading(false);
   };
 
-  //   useEffect(() => {
-  //     if (session) {
-  //       router.push("/");
-  //     }
-  //   }, [session]);
+  useEffect(() => {
+    if (session) {
+      router.push("/");
+    }
+  }, [session]);
 
   return (
     <AboveTheFold {...props}>
       <Button
         className="mt-10"
         variant="light"
-        startContent={<FaGithub size="20px" />}
+        startContent={isLoading ? null : <FaGithub size="20px" />}
+        isLoading={isLoading}
         onClick={handleClick}
       >
         Sign In with GitHub
