@@ -1,7 +1,9 @@
+import { Container } from "./Container";
+
 interface AboveTheFoldProps {
   children: React.ReactNode;
   title: string;
-  description: string;
+  description?: string;
   short?: boolean;
 }
 
@@ -20,7 +22,7 @@ export const AboveTheFold = ({
         </p>
       </div>
 
-      {children}
+      <Container>{children}</Container>
     </section>
   );
 };
