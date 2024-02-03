@@ -1,24 +1,17 @@
 import { LinkUI } from "./LinkUI";
 import { CardDropdown } from "./CardDropdown";
 
+import { getLinks } from "@/utils/getLinks";
+
 import { Card, CardHeader } from "@nextui-org/card";
 
-import type { TLink } from "@/app/types/link";
+import type { Link } from "@prisma/client";
 
 import type { Session } from "next-auth";
 
 interface DashboardProps {
   session: Session | null;
 }
-
-const getLinks = async (session: Session | null): Promise<TLink[] | void> => {
-  if (!session) return;
-
-  const res = await fetch(`/api/urls/${session.user?.email}`);
-  const data = await res.json();
-
-  return data;
-};
 
 export const Dashboard = async ({ session }: DashboardProps) => {
   const links = await getLinks(session);
@@ -33,7 +26,7 @@ export const Dashboard = async ({ session }: DashboardProps) => {
         </Card>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-          {links?.map((link: TLink) => (
+          {links?.map((link: Link) => (
             <Card key={link.id}>
               <CardHeader className="justify-between">
                 <div className="overflow-hidden">
