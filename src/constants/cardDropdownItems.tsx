@@ -27,7 +27,14 @@ export const CARD_DROPDOWN_ITEMS = [
     TITLE: "Delete",
     ICON: <MdDelete />,
     DANGER: true,
-    EVENT: ({ shortUrl, authorId }: { shortUrl: string; authorId: string }) =>
-      deleteLink(shortUrl, authorId),
+    EVENT: ({
+      shortUrl,
+      authorId,
+      refetch,
+    }: {
+      shortUrl: string;
+      authorId: string;
+      refetch: () => void;
+    }) => deleteLink(shortUrl, authorId, refetch),
   },
 ];
