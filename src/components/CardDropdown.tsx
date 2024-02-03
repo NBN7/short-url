@@ -1,5 +1,7 @@
 "use client";
 
+import { useLinks } from "@/hooks/useLinks";
+
 import {
   Dropdown,
   DropdownTrigger,
@@ -25,6 +27,8 @@ export const CardDropdown = ({
   shortUrl,
   link,
 }: CardDropdownProps) => {
+  const { refetch } = useLinks({ session });
+
   return (
     <Dropdown>
       <DropdownTrigger>
@@ -45,6 +49,7 @@ export const CardDropdown = ({
                 textToCopy: link,
                 shortUrl: shortUrl,
                 authorId: session?.user?.email as string,
+                refetch,
               })
             }
           >
