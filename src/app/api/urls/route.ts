@@ -41,7 +41,7 @@ export async function PATCH(req: NextRequest) {
   try {
     const { url, shortUrl, description, authorId } = await req.json();
 
-    //check if the url is property of the author
+    // check if the url is property of the author
     const isAuthor = await prisma.link.findUnique({
       where: { shortUrl, authorId },
     });
@@ -71,7 +71,7 @@ export async function DELETE(req: NextRequest) {
   try {
     const { shortUrl, authorId } = await req.json();
 
-    //check if shortUrl exists
+    // check if shortUrl exists
     const shortUrlExists = await prisma.link.findUnique({
       where: { shortUrl },
     });
@@ -82,7 +82,7 @@ export async function DELETE(req: NextRequest) {
       );
     }
 
-    //check if the url is property of the author
+    // check if the url is property of the author
     const isAuthor = await prisma.link.findUnique({
       where: { shortUrl, authorId },
     });
