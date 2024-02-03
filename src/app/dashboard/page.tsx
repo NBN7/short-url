@@ -12,14 +12,15 @@ import { ROUTES } from "@/constants/routes";
 
 export default function DashboardPage() {
   const { data: session } = useSession();
+  const { status } = useSession();
 
   const router = useRouter();
 
   useEffect(() => {
-    if (!session) {
+    if (status === "unauthenticated") {
       router.push(ROUTES.HOME);
     }
-  }, [session]);
+  }, [status]);
 
   const props = {
     title: "Dashboard",
