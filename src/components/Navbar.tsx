@@ -21,7 +21,7 @@ import {
 } from "@nextui-org/dropdown";
 import { CircularProgress } from "@nextui-org/progress";
 
-import { DROPDOWN_ITEMS } from "@/constants/dropdownItem";
+import { NAVBAR_DROPDOWN_ITEMS } from "@/constants/navbarDropdownItems";
 import { ROUTES } from "@/constants/routes";
 
 export const NavbarComponent = () => {
@@ -58,13 +58,13 @@ export const NavbarComponent = () => {
                   </DropdownTrigger>
 
                   <DropdownMenu variant="light" aria-label="Static Actions">
-                    {DROPDOWN_ITEMS.map(
-                      ({ TITLE, ICON, PATH, COLOR, EVENT }) => (
+                    {NAVBAR_DROPDOWN_ITEMS.map(
+                      ({ TITLE, ICON, PATH, DANGER, EVENT }) => (
                         <DropdownItem
                           key={TITLE}
                           startContent={ICON}
                           textValue={TITLE}
-                          color={COLOR ? "danger" : "default"}
+                          color={DANGER ? "danger" : "default"}
                           onClick={EVENT ? handleClick : () => {}}
                         >
                           <Link href={PATH}>{TITLE}</Link>
