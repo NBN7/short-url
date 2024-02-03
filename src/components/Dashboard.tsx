@@ -1,7 +1,7 @@
+import { useLinks } from "@/hooks/useLinks";
+
 import { LinkUI } from "./LinkUI";
 import { CardDropdown } from "./CardDropdown";
-
-import { getLinks } from "@/utils/getLinks";
 
 import { Card, CardHeader } from "@nextui-org/card";
 
@@ -13,8 +13,8 @@ interface DashboardProps {
   session: Session | null;
 }
 
-export const Dashboard = async ({ session }: DashboardProps) => {
-  const links = await getLinks(session);
+export const Dashboard = ({ session }: DashboardProps) => {
+  const { links } = useLinks({ session });
 
   return (
     <section className="w-full flex flex-col gap-6 mt-6">
