@@ -1,4 +1,8 @@
-export const deleteLink = async (shortUrl: string, authorId: string) => {
+export const deleteLink = async (
+  shortUrl: string,
+  authorId: string,
+  refetch: () => void
+) => {
   try {
     const res = await fetch(`/api/urls`, {
       method: "DELETE",
@@ -11,6 +15,7 @@ export const deleteLink = async (shortUrl: string, authorId: string) => {
 
     if (res.ok) {
       // toast success
+      refetch();
     }
 
     return data;
