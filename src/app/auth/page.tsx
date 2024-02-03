@@ -15,7 +15,7 @@ import { ROUTES } from "@/constants/routes";
 import { FaGithub } from "react-icons/fa";
 
 export default function AuthPage() {
-  const { data: session } = useSession();
+  const { status } = useSession();
   const router = useRouter();
 
   const [isLoading, setIsLoading] = useState(false);
@@ -34,10 +34,10 @@ export default function AuthPage() {
   };
 
   useEffect(() => {
-    if (session) {
+    if (status === "authenticated") {
       router.push(ROUTES.HOME);
     }
-  }, [session]);
+  }, [status]);
 
   return (
     <AboveTheFold {...props}>
