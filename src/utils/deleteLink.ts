@@ -1,3 +1,5 @@
+import { toastSuccess, toastError } from "./toastNotifications";
+
 export const deleteLink = async (
   shortUrl: string,
   authorId: string,
@@ -14,12 +16,12 @@ export const deleteLink = async (
     const data = await res.json();
 
     if (res.ok) {
-      // toast success
+      toastSuccess("Link deleted");
       refetch();
     }
 
     return data;
   } catch (error) {
-    console.error(error);
+    toastError("Failed to delete link");
   }
 };

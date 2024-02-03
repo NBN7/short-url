@@ -1,8 +1,11 @@
+import { toastSuccess, toastError } from "./toastNotifications";
+
 export const copyToClipboard = async (text: string) => {
   try {
     await navigator.clipboard.writeText(text);
-    // toast success
+
+    toastSuccess("Copied to clipboard");
   } catch (error) {
-    // toast error
+    toastError("Failed to copy to clipboard");
   }
 };
