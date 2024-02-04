@@ -2,8 +2,8 @@ import { toast } from "react-hot-toast";
 
 const toastStyle = {
   style: {
-    backgroundColor: "#18181B",
-    color: "#ffffff",
+    backgroundColor: "#006FEF",
+    color: "#fff",
     borderRadius: "10px",
   },
   duration: 1500,
