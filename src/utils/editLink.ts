@@ -6,7 +6,7 @@ export const editLink = async ({
 }: {
   url: string;
   shortUrl: string;
-  description: string;
+  description: string | null;
   authorId: string;
 }) => {
   try {
