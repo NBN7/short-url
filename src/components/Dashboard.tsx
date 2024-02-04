@@ -39,8 +39,7 @@ export const Dashboard = ({ session }: DashboardProps) => {
 
                 <CardDropdown
                   session={session}
-                  shortUrl={link.shortUrl}
-                  link={`${process.env.NEXT_PUBLIC_URL}/z/${link.shortUrl}`}
+                  link={link}
                 />
               </CardHeader>
             </Card>

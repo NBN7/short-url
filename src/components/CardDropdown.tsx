@@ -4,6 +4,7 @@ import { useLinks } from "@/hooks/useLinks";
 import { useMutation } from "@tanstack/react-query";
 
 import { copyToClipboard } from "@/utils/copyToClipboard";
+import { editLink } from "@/utils/editLink";
 import { deleteLink } from "@/utils/deleteLink";
 import { toastSuccess, toastError } from "@/utils/toastNotifications";
 
@@ -22,10 +23,12 @@ import {
   ModalFooter,
   useDisclosure,
 } from "@nextui-org/modal";
+import { Input, Textarea } from "@nextui-org/input";
 
 import QRCode from "react-qr-code";
 
 import type { Session } from "next-auth";
+import type { Link } from "@prisma/client";
 
 import { BiDotsVerticalRounded } from "react-icons/bi";
 import { IoCopyOutline } from "react-icons/io5";
@@ -35,15 +38,12 @@ import { BiQr } from "react-icons/bi";
 
 interface CardDropdownProps {
   session: Session | null;
-  shortUrl: string;
-  link: string;
+  link: Link;
 }
 
-export const CardDropdown = ({
-  session,
-  shortUrl,
-  link,
-}: CardDropdownProps) => {
+export const CardDropdown = ({ session, link }: CardDropdownProps) => {
+  const { shortUrl, url, description, authorId } = link;
+
   const { refetch } = useLinks({ session });
 
   const {
@@ -71,8 +71,20 @@ export const CardDropdown = ({
     },
   });
 
+  const { mutate: callEditMutation } = useMutation({
+    mutationFn: () =>
+      editLink({ url, shortUrl, description, authorId: session?.user?.email! }),
+    onSuccess: () => {
+      toastSuccess("Link updated");
+      refetch();
+    },
+    onError: () => {
+      toastError("Error updating link");
+    },
+  });
+
   const { mutate: callDeleteMutation } = useMutation({
-    mutationFn: () => deleteLink({ shortUrl, authorId: session!.user!.email! }),
+    mutationFn: () => deleteLink({ shortUrl, authorId: session?.user?.email! }),
     onSuccess: () => {
       toastSuccess("Link deleted");
       refetch();
@@ -113,7 +125,9 @@ export const CardDropdown = ({
             startContent={<IoCopyOutline />}
             textValue="text"
             color="default"
-            onClick={() => handleCopy(link)}
+            onClick={() =>
+              handleCopy(`${process.env.NEXT_PUBLIC_URL}/z/${link.shortUrl}`)
+            }
           >
             Copy
           </DropdownItem>
@@ -152,8 +166,11 @@ export const CardDropdown = ({
 
       <Modal isOpen={isEditOpen} onOpenChange={onEditOpenChange}>
         <ModalContent>
-          <ModalHeader>Edit</ModalHeader>
-          <ModalBody className="items-center"></ModalBody>
+          <ModalHeader>{`/z/${shortUrl}`}</ModalHeader>
+          <ModalBody>
+            <Input label="URL" defaultValue={url} />
+            <Textarea label="Description" />
+          </ModalBody>
           <ModalFooter>
             <Button variant="light" color="danger" onClick={onEditClose}>
               Close
