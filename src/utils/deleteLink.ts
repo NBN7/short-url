@@ -1,10 +1,10 @@
-import { toastSuccess, toastError } from "./toastNotifications";
-
-export const deleteLink = async (
-  shortUrl: string,
-  authorId: string,
-  refetch: () => void
-) => {
+export const deleteLink = async ({
+  shortUrl,
+  authorId,
+}: {
+  shortUrl: string;
+  authorId: string;
+}) => {
   try {
     const res = await fetch(`/api/urls`, {
       method: "DELETE",
@@ -15,13 +15,12 @@ export const deleteLink = async (
     });
     const data = await res.json();
 
-    if (res.ok) {
-      toastSuccess("Link deleted");
-      refetch();
-    }
-
     return data;
   } catch (error) {
-    toastError("Failed to delete link");
+    if (error instanceof Error) {
+      throw new Error(error.message);
+    } else {
+      throw new Error("An unknown error occurred");
+    }
   }
 };
