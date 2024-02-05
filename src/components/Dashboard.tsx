@@ -17,6 +17,8 @@ interface DashboardProps {
 export const Dashboard = ({ session }: DashboardProps) => {
   const { links, isLoading } = useLinks({ session });
 
+  const reversedLinks = links ? [...links].reverse() : [];
+
   return (
     <section className="w-full flex flex-col gap-6 mt-6">
       {links?.length === 0 ? (
@@ -27,8 +29,9 @@ export const Dashboard = ({ session }: DashboardProps) => {
         </Card>
       ) : (
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-3">
-          {!links || isLoading && <Skeleton className="rounded-xl w-full h-[100px]" />}
-          {links?.map((link: Link) => (
+          {!links ||
+            (isLoading && <Skeleton className="rounded-xl w-full h-[100px]" />)}
+          {reversedLinks?.map((link: Link) => (
             <Card key={link.id}>
               <CardHeader className="justify-between">
                 <div className="overflow-hidden">
