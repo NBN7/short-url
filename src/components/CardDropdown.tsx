@@ -169,7 +169,10 @@ export const CardDropdown = ({ session, link }: CardDropdownProps) => {
           <ModalHeader>{`/z/${shortUrl}`}</ModalHeader>
           <ModalBody>
             <Input label="URL" defaultValue={url} />
-            <Textarea label="Description" />
+            <Textarea
+              label="Description"
+              defaultValue={description ? description : ""}
+            />
           </ModalBody>
           <ModalFooter>
             <Button variant="light" color="danger" onClick={onEditClose}>
