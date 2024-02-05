@@ -1,9 +1,13 @@
 import type { Session } from "next-auth";
 import type { Link } from "@prisma/client";
 
-export const getLinks = async (
-  session: Session | null
-): Promise<Link[] | null> => {
+interface GetLinksProps {
+  session: Session | null;
+}
+
+export const getLinks = async ({
+  session,
+}: GetLinksProps): Promise<Link[] | null> => {
   try {
     if (!session) return null;
 

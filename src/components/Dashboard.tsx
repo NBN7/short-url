@@ -1,4 +1,4 @@
-import { useLinks } from "@/hooks/useLinks";
+import { useGetLinks } from "@/hooks/useGetLinks";
 
 import { LinkUI } from "./LinkUI";
 import { CardDropdown } from "./CardDropdown";
@@ -14,7 +14,7 @@ interface DashboardProps {
 }
 
 export const Dashboard = ({ session }: DashboardProps) => {
-  const { links, isLoading } = useLinks({ session });
+  const { links } = useGetLinks({ session });
 
   const reversedLinks = links ? [...links].reverse() : [];
 

@@ -1,10 +1,9 @@
-export const deleteLink = async ({
-  shortUrl,
-  authorId,
-}: {
+interface DeleteLinkProps {
   shortUrl: string;
   authorId: string;
-}) => {
+}
+
+export const deleteLink = async ({ shortUrl, authorId }: DeleteLinkProps) => {
   try {
     const res = await fetch(`/api/urls/${shortUrl}`, {
       method: "DELETE",

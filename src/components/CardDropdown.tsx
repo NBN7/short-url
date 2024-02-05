@@ -2,7 +2,7 @@
 
 import { useState, useRef } from "react";
 
-import { useLinks } from "@/hooks/useLinks";
+import { useGetLinks } from "@/hooks/useGetLinks";
 import { useEditLink } from "@/hooks/useEditLink";
 import { useDeleteLink } from "@/hooks/useDeleteLink";
 
@@ -47,7 +47,7 @@ export const CardDropdown = ({ session, link }: CardDropdownProps) => {
   const urlRef = useRef(url);
   const [descriptionState, setDescriptionState] = useState(description);
 
-  const { refetch } = useLinks({ session });
+  const { refetch } = useGetLinks({ session });
 
   const { callEditMutation } = useEditLink({
     url: urlRef.current,

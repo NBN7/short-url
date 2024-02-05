@@ -17,10 +17,10 @@ export async function GET(req: NextRequest, { params }: { params: Params }) {
     });
     if (shortUrlExists) {
       const redirectUrl = shortUrlExists.url;
-      return NextResponse.redirect(redirectUrl);
+      return NextResponse.json({ url: redirectUrl });
     }
 
-    return NextResponse.redirect(`${process.env.NEXT_PUBLIC_URL}`);
+    return NextResponse.json({ url: `${process.env.NEXT_PUBLIC_URL}` });
   } catch (error) {
     return NextResponse.json(
       { error: "Internal Server Error" },

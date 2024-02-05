@@ -1,14 +1,16 @@
+interface EditLinkProps {
+  url: string;
+  shortUrl: string;
+  description: string | null;
+  authorId: string;
+}
+
 export const editLink = async ({
   url,
   shortUrl,
   description,
   authorId,
-}: {
-  url: string;
-  shortUrl: string;
-  description: string | null;
-  authorId: string;
-}) => {
+}: EditLinkProps) => {
   try {
     const res = await fetch(`/api/urls/${shortUrl}`, {
       method: "PATCH",
