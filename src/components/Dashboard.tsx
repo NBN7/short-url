@@ -5,6 +5,8 @@ import { CardDropdown } from "./CardDropdown";
 
 import { Card, CardHeader } from "@nextui-org/card";
 
+import { ROUTES } from "@/constants/routes";
+
 import type { Link } from "@prisma/client";
 
 import type { Session } from "next-auth";
@@ -32,8 +34,8 @@ export const Dashboard = ({ session }: DashboardProps) => {
             <Card key={link.id}>
               <CardHeader className="justify-between">
                 <div className="overflow-hidden">
-                  <LinkUI href={`/z/${link.shortUrl}`}>
-                    /z/{link.shortUrl}
+                  <LinkUI href={`${ROUTES.REDIRECT}/${link.shortUrl}`}>
+                    {ROUTES.REDIRECT}/{link.shortUrl}
                   </LinkUI>
                   <p className="text-gray-500 truncate">{link.url}</p>
                   <p className="text-sm text-gray-400 mt-2 truncate">

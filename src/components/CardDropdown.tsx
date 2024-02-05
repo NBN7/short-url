@@ -27,6 +27,8 @@ import { Input, Textarea } from "@nextui-org/input";
 
 import QRCode from "react-qr-code";
 
+import { ROUTES } from "@/constants/routes";
+
 import type { Session } from "next-auth";
 import type { Link } from "@prisma/client";
 
@@ -42,10 +44,12 @@ interface CardDropdownProps {
 }
 
 export const CardDropdown = ({ session, link }: CardDropdownProps) => {
-  const { shortUrl, url, description, authorId } = link;
+  const { shortUrl, url, description } = link;
 
   const urlRef = useRef(url);
   const [descriptionState, setDescriptionState] = useState(description);
+
+  const linkToCopy = `${process.env.NEXT_PUBLIC_URL}${ROUTES.REDIRECT}/${shortUrl}`;
 
   const { refetch } = useGetLinks({ session });
 
@@ -109,11 +113,7 @@ export const CardDropdown = ({ session, link }: CardDropdownProps) => {
             startContent={<IoCopyOutline />}
             textValue="text"
             color="default"
-            onClick={() =>
-              copyToClipboard(
-                `${process.env.NEXT_PUBLIC_URL}/z/${link.shortUrl}`
-              )
-            }
+            onClick={() => copyToClipboard(linkToCopy)}
           >
             Copy
           </DropdownItem>
