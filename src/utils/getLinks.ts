@@ -7,7 +7,7 @@ export const getLinks = async (
   try {
     if (!session) return null;
 
-    const res = await fetch(`/api/urls/${session.user?.email}`);
+    const res = await fetch(`/api/urls/user/${session.user?.email}`);
     const data = await res.json();
 
     return data;

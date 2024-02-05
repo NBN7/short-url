@@ -2,10 +2,37 @@ import { NextResponse } from "next/server";
 import { prisma } from "@/libs/prisma";
 
 import type { NextRequest } from "next/server";
+import type { Params } from "next/dist/shared/lib/router/utils/route-matcher";
 
-export async function POST(req: NextRequest) {
+export async function GET(req: NextRequest, { params }: { params: Params }) {
   try {
-    const { url, shortUrl, description, authorId } = await req.json();
+    const { shortUrl } = params;
+
+    // find url
+    const shortUrlExists = await prisma.link.findUnique({
+      where: { shortUrl },
+      select: {
+        url: true,
+      },
+    });
+    if (shortUrlExists) {
+      const redirectUrl = shortUrlExists.url;
+      return NextResponse.redirect(redirectUrl);
+    }
+
+    return NextResponse.redirect(`${process.env.NEXT_PUBLIC_URL}`);
+  } catch (error) {
+    return NextResponse.json(
+      { error: "Internal Server Error" },
+      { status: 500 }
+    );
+  }
+}
+
+export async function POST(req: NextRequest, { params }: { params: Params }) {
+  try {
+    const { url, description, authorId } = await req.json();
+    const { shortUrl } = params;
 
     // check if shortUrl already exists
     const shortUrlExists = await prisma.link.findUnique({
@@ -37,9 +64,10 @@ export async function POST(req: NextRequest) {
   }
 }
 
-export async function PATCH(req: NextRequest) {
+export async function PATCH(req: NextRequest, { params }: { params: Params }) {
   try {
-    const { url, shortUrl, description, authorId } = await req.json();
+    const { url, description, authorId } = await req.json();
+    const { shortUrl } = params;
 
     // check if the url is property of the author
     const isAuthor = await prisma.link.findUnique({
@@ -67,9 +95,10 @@ export async function PATCH(req: NextRequest) {
   }
 }
 
-export async function DELETE(req: NextRequest) {
+export async function DELETE(req: NextRequest, { params }: { params: Params }) {
   try {
-    const { shortUrl, authorId } = await req.json();
+    const { authorId } = await req.json();
+    const { shortUrl } = params;
 
     // check if shortUrl exists
     const shortUrlExists = await prisma.link.findUnique({

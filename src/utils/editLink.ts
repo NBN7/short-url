@@ -10,12 +10,12 @@ export const editLink = async ({
   authorId: string;
 }) => {
   try {
-    const res = await fetch("/api/urls", {
+    const res = await fetch(`/api/urls/${shortUrl}`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ url, shortUrl, description, authorId }),
+      body: JSON.stringify({ url, description, authorId }),
     });
     const data = await res.json();
 

@@ -6,12 +6,12 @@ export const deleteLink = async ({
   authorId: string;
 }) => {
   try {
-    const res = await fetch(`/api/urls`, {
+    const res = await fetch(`/api/urls/${shortUrl}`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ shortUrl, authorId }),
+      body: JSON.stringify({ authorId }),
     });
     const data = await res.json();
 
