@@ -3,7 +3,7 @@ import { useLinks } from "@/hooks/useLinks";
 import { LinkUI } from "./LinkUI";
 import { CardDropdown } from "./CardDropdown";
 
-import { Card, CardHeader } from "@nextui-org/card";
+import { Card, CardHeader, CardBody } from "@nextui-org/card";
 
 import type { Link } from "@prisma/client";
 
@@ -25,7 +25,7 @@ export const Dashboard = ({ session }: DashboardProps) => {
           </CardHeader>
         </Card>
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-3">
           {links?.map((link: Link) => (
             <Card key={link.id}>
               <CardHeader className="justify-between">
@@ -33,14 +33,13 @@ export const Dashboard = ({ session }: DashboardProps) => {
                   <LinkUI href={`/z/${link.shortUrl}`}>
                     /z/{link.shortUrl}
                   </LinkUI>
-                  <p className="text-gray-400 truncate">{link.url}</p>
-                  {/* <p className="truncate">{link.description}</p> */}
+                  <p className="text-gray-500 truncate">{link.url}</p>
+                  <p className="text-sm text-gray-400 mt-2 truncate">
+                    {link.description}
+                  </p>
                 </div>
 
-                <CardDropdown
-                  session={session}
-                  link={link}
-                />
+                <CardDropdown session={session} link={link} />
               </CardHeader>
             </Card>
           ))}
