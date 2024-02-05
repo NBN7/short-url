@@ -190,7 +190,7 @@ export const CardDropdown = ({ session, link }: CardDropdownProps) => {
           <ModalHeader>QR Code</ModalHeader>
           <ModalBody className="items-center">
             <QRCode
-              value="http://localhost:3000/dashboard"
+              value={`${process.env.NEXT_PUBLIC_URL}/z/${shortUrl}`}
               bgColor="#18181B"
               fgColor="#ffffff"
               size={150}
