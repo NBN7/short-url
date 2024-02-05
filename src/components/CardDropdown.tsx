@@ -1,5 +1,7 @@
 "use client";
 
+import { useState, useRef } from "react";
+
 import { useLinks } from "@/hooks/useLinks";
 import { useMutation } from "@tanstack/react-query";
 
@@ -46,6 +48,9 @@ export const CardDropdown = ({ session, link }: CardDropdownProps) => {
 
   const { refetch } = useLinks({ session });
 
+  const urlRef = useRef(url);
+  const [descriptionState, setDescriptionState] = useState(description);
+
   const {
     isOpen: isEditOpen,
     onOpen: onEditOpen,
@@ -64,16 +69,20 @@ export const CardDropdown = ({ session, link }: CardDropdownProps) => {
     mutationFn: (textToCopy: string) => copyToClipboard(textToCopy),
     onSuccess: () => {
       toastSuccess("Copied to clipboard");
-      refetch();
     },
     onError: () => {
       toastError("Failed to copy");
     },
   });
 
-  const { mutate: callEditMutation } = useMutation({
+  const { mutate: callEditMutation, isPending } = useMutation({
     mutationFn: () =>
-      editLink({ url, shortUrl, description, authorId: session?.user?.email! }),
+      editLink({
+        url: urlRef.current,
+        shortUrl,
+        description: descriptionState,
+        authorId: session?.user?.email!,
+      }),
     onSuccess: () => {
       toastSuccess("Link updated");
       refetch();
@@ -108,6 +117,11 @@ export const CardDropdown = ({ session, link }: CardDropdownProps) => {
 
   const handleDelete = () => {
     callDeleteMutation();
+  };
+
+  const handleSave = () => {
+    callEditMutation();
+    onEditClose();
   };
 
   return (
@@ -168,18 +182,31 @@ export const CardDropdown = ({ session, link }: CardDropdownProps) => {
         <ModalContent>
           <ModalHeader>{`/z/${shortUrl}`}</ModalHeader>
           <ModalBody>
-            <Input label="URL" defaultValue={url} />
+            <Input
+              label="URL"
+              defaultValue={url}
+              onChange={(e) => (urlRef.current = e.target.value)}
+            />
             <Textarea
               label="Description"
               defaultValue={description ? description : ""}
+              description={`${descriptionState?.length} / 40`}
+              onChange={(e) => setDescriptionState(e.target.value)}
             />
           </ModalBody>
           <ModalFooter>
-            <Button variant="light" color="danger" onClick={onEditClose}>
+            <Button
+              variant="light"
+              color="danger"
+              onClick={() => {
+                onEditClose();
+                setDescriptionState(description);
+              }}
+            >
               Close
             </Button>
 
-            <Button color="primary" onClick={onEditClose}>
+            <Button color="primary" onClick={handleSave}>
               Save
             </Button>
           </ModalFooter>
