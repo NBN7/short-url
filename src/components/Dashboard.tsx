@@ -3,7 +3,8 @@ import { useLinks } from "@/hooks/useLinks";
 import { LinkUI } from "./LinkUI";
 import { CardDropdown } from "./CardDropdown";
 
-import { Card, CardHeader, CardBody } from "@nextui-org/card";
+import { Card, CardHeader } from "@nextui-org/card";
+import { Skeleton } from "@nextui-org/skeleton";
 
 import type { Link } from "@prisma/client";
 
@@ -14,18 +15,19 @@ interface DashboardProps {
 }
 
 export const Dashboard = ({ session }: DashboardProps) => {
-  const { links } = useLinks({ session });
+  const { links, isLoading } = useLinks({ session });
 
   return (
     <section className="w-full flex flex-col gap-6 mt-6">
       {links?.length === 0 ? (
         <Card>
-          <CardHeader className="justify-between">
+          <CardHeader>
             <p className="font-semibold text-gray-400">No links to show</p>
           </CardHeader>
         </Card>
       ) : (
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-3">
+          {!links || isLoading && <Skeleton className="rounded-xl w-full h-[100px]" />}
           {links?.map((link: Link) => (
             <Card key={link.id}>
               <CardHeader className="justify-between">

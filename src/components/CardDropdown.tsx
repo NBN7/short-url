@@ -3,12 +3,10 @@
 import { useState, useRef } from "react";
 
 import { useLinks } from "@/hooks/useLinks";
-import { useMutation } from "@tanstack/react-query";
+import { useEditLink } from "@/hooks/useEditLink";
+import { useDeleteLink } from "@/hooks/useDeleteLink";
 
 import { copyToClipboard } from "@/utils/copyToClipboard";
-import { editLink } from "@/utils/editLink";
-import { deleteLink } from "@/utils/deleteLink";
-import { toastSuccess, toastError } from "@/utils/toastNotifications";
 
 import {
   Dropdown,
@@ -46,10 +44,24 @@ interface CardDropdownProps {
 export const CardDropdown = ({ session, link }: CardDropdownProps) => {
   const { shortUrl, url, description, authorId } = link;
 
-  const { refetch } = useLinks({ session });
-
   const urlRef = useRef(url);
   const [descriptionState, setDescriptionState] = useState(description);
+
+  const { refetch } = useLinks({ session });
+
+  const { callEditMutation } = useEditLink({
+    url: urlRef.current,
+    shortUrl,
+    description: descriptionState,
+    authorId: session?.user?.email!,
+    refetch,
+  });
+
+  const { callDeleteMutation } = useDeleteLink({
+    shortUrl,
+    authorId: session?.user?.email!,
+    refetch,
+  });
 
   const {
     isOpen: isEditOpen,
@@ -65,48 +77,6 @@ export const CardDropdown = ({ session, link }: CardDropdownProps) => {
     onClose: onQrCodeClose,
   } = useDisclosure();
 
-  const { mutate: callCopyMutation } = useMutation({
-    mutationFn: (textToCopy: string) => copyToClipboard(textToCopy),
-    onSuccess: () => {
-      toastSuccess("Copied to clipboard");
-    },
-    onError: () => {
-      toastError("Failed to copy");
-    },
-  });
-
-  const { mutate: callEditMutation, isPending } = useMutation({
-    mutationFn: () =>
-      editLink({
-        url: urlRef.current,
-        shortUrl,
-        description: descriptionState,
-        authorId: session?.user?.email!,
-      }),
-    onSuccess: () => {
-      toastSuccess("Link updated");
-      refetch();
-    },
-    onError: () => {
-      toastError("Error updating link");
-    },
-  });
-
-  const { mutate: callDeleteMutation } = useMutation({
-    mutationFn: () => deleteLink({ shortUrl, authorId: session?.user?.email! }),
-    onSuccess: () => {
-      toastSuccess("Link deleted");
-      refetch();
-    },
-    onError: () => {
-      toastError("Error deleting link");
-    },
-  });
-
-  const handleCopy = (textToCopy: string) => {
-    callCopyMutation(textToCopy);
-  };
-
   const handleEdit = () => {
     onEditOpen();
   };
@@ -119,7 +89,7 @@ export const CardDropdown = ({ session, link }: CardDropdownProps) => {
     callDeleteMutation();
   };
 
-  const handleSave = () => {
+  const handleSave = async () => {
     callEditMutation();
     onEditClose();
   };
@@ -140,7 +110,9 @@ export const CardDropdown = ({ session, link }: CardDropdownProps) => {
             textValue="text"
             color="default"
             onClick={() =>
-              handleCopy(`${process.env.NEXT_PUBLIC_URL}/z/${link.shortUrl}`)
+              copyToClipboard(
+                `${process.env.NEXT_PUBLIC_URL}/z/${link.shortUrl}`
+              )
             }
           >
             Copy
