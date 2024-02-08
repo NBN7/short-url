@@ -1,0 +1,121 @@
+"use client";
+
+import { useState, useEffect } from "react";
+
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
+
+import { useCreateLink } from "@/hooks/useCreateLink";
+
+import { AboveTheFold } from "@/components/AboveTheFold";
+
+import { validateUrl, validateShortUrl } from "@/utils/validators";
+
+import { ROUTES } from "@/constants/routes";
+
+import { Input, Textarea } from "@nextui-org/input";
+import { Button } from "@nextui-org/button";
+
+export default function CreatePage() {
+  const { data: session } = useSession();
+
+  const router = useRouter();
+
+  const [url, setUrl] = useState("");
+  const [shortUrl, setShortUrl] = useState("");
+  const [description, setDescription] = useState("");
+
+  const { callCreateMutation } = useCreateLink({
+    url,
+    shortUrl,
+    description,
+    authorId: session?.user?.email!,
+  });
+
+  const [isUrlValid, setIsUrlValid] = useState(true);
+  const [isShortUrlValid, setIsShortUrlValid] = useState(true);
+  const [isDescriptionValid, setIsDescriptionValid] = useState(true);
+
+  const handleUrlChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setUrl(e.target.value);
+  };
+
+  const handleShortUrlChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setIsShortUrlValid(validateShortUrl(shortUrl));
+  };
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    callCreateMutation();
+
+    router.push(ROUTES.DASHBOARD);
+  };
+
+  useEffect(() => {
+    if (url) {
+      setIsUrlValid(validateUrl(url));
+    }
+  }, [url]);
+
+  useEffect(() => {
+    if (shortUrl) {
+      setIsShortUrlValid(validateShortUrl(shortUrl));
+    }
+  }, [shortUrl]);
+
+  useEffect(() => {
+    setIsDescriptionValid(description.length <= 40);
+  }, [description]);
+
+  return (
+    <AboveTheFold title="Create">
+      <section className="w-full flex flex-col items-center gap-6 mt-6">
+        <form
+          className="flex flex-col gap-3 sm:w-[500px] w-full"
+          onSubmit={handleSubmit}
+        >
+          <Input
+            label="URL"
+            value={url}
+            placeholder="https://example.com"
+            autoComplete="off"
+            errorMessage={!isUrlValid ? "Invalid URL" : ""}
+            onChange={handleUrlChange}
+          />
+          <Input
+            label="Short URL"
+            value={shortUrl}
+            autoComplete="off"
+            errorMessage={!isShortUrlValid ? "Invalid short URL" : ""}
+            onChange={handleShortUrlChange}
+          />
+          <Textarea
+            label="Description"
+            value={description}
+            autoComplete="off"
+            description={`${description.length} / 40`}
+            errorMessage={!isDescriptionValid ? "Description is too long" : ""}
+            onChange={(e) => setDescription(e.target.value)}
+          />
+
+          <div className="flex justify-end">
+            <Button
+              color="primary"
+              type="submit"
+              isDisabled={
+                !url ||
+                !shortUrl ||
+                !isUrlValid ||
+                !isShortUrlValid ||
+                !isDescriptionValid
+              }
+            >
+              Create link
+            </Button>
+          </div>
+        </form>
+      </section>
+    </AboveTheFold>
+  );
+}
