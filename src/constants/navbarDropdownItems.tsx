@@ -8,7 +8,7 @@ export const NAVBAR_DROPDOWN_ITEMS = [
   {
     TITLE: "Create new link",
     ICON: <FiPlus />,
-    PATH: ROUTES.DASHBOARD,
+    PATH: ROUTES.CREATE,
   },
   {
     TITLE: "Dashboard",
