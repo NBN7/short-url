@@ -34,6 +34,13 @@ export async function POST(req: NextRequest, { params }: { params: Params }) {
     const { url, description, authorId } = await req.json();
     const { shortUrl } = params;
 
+    // check if description is less than 40 characters
+    if (description.length > 40) {
+      return NextResponse.json({
+        error: "Description must have a length fewer than 40 characters",
+      });
+    }
+
     // check if shortUrl already exists
     const shortUrlExists = await prisma.link.findUnique({
       where: { shortUrl },
@@ -78,6 +85,13 @@ export async function PATCH(req: NextRequest, { params }: { params: Params }) {
         { error: "You are not the author of this URL" },
         { status: 400 }
       );
+    }
+
+    // check if description is less than 40 characters
+    if (description.length > 40) {
+      return NextResponse.json({
+        error: "Description must have a length fewer than 40 characters",
+      });
     }
 
     // update url
