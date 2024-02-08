@@ -1,12 +1,13 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState, useEffect } from "react";
 
 import { useGetLinks } from "@/hooks/useGetLinks";
 import { useEditLink } from "@/hooks/useEditLink";
 import { useDeleteLink } from "@/hooks/useDeleteLink";
-
 import { copyToClipboard } from "@/utils/copyToClipboard";
+
+import { validateUrl } from "@/utils/validators";
 
 import {
   Dropdown,
@@ -46,15 +47,18 @@ interface CardDropdownProps {
 export const CardDropdown = ({ session, link }: CardDropdownProps) => {
   const { shortUrl, url, description } = link;
 
-  const urlRef = useRef(url);
+  const [urlState, setUrlState] = useState(url);
   const [descriptionState, setDescriptionState] = useState(description);
+
+  const [isUrlValid, setUrlValid] = useState(true);
+  const [isDescriptionValid, setIsDescriptionValid] = useState(true);
 
   const linkToCopy = `${process.env.NEXT_PUBLIC_URL}${ROUTES.REDIRECT}/${shortUrl}`;
 
   const { refetch } = useGetLinks({ session });
 
   const { callEditMutation } = useEditLink({
-    url: urlRef.current,
+    url: urlState,
     shortUrl,
     description: descriptionState,
     authorId: session?.user?.email!,
@@ -97,6 +101,21 @@ export const CardDropdown = ({ session, link }: CardDropdownProps) => {
     callEditMutation();
     onEditClose();
   };
+
+  useEffect(() => {
+    if (urlState === "") {
+      setUrlValid(true);
+      return;
+    }
+
+    setUrlValid(validateUrl(urlState));
+  }, [urlState]);
+
+  useEffect(() => {
+    if (descriptionState) {
+      setIsDescriptionValid(descriptionState.length <= 40);
+    }
+  }, [descriptionState]);
 
   return (
     <>
@@ -142,7 +161,7 @@ export const CardDropdown = ({ session, link }: CardDropdownProps) => {
             key="Delete"
             startContent={<MdDelete />}
             textValue="text"
-            color="default"
+            color="danger"
             onClick={handleDelete}
           >
             Delete
@@ -157,12 +176,16 @@ export const CardDropdown = ({ session, link }: CardDropdownProps) => {
             <Input
               label="URL"
               defaultValue={url}
-              onChange={(e) => (urlRef.current = e.target.value)}
+              errorMessage={!isUrlValid ? "Invalid URL" : ""}
+              onChange={(e) => setUrlState(e.target.value)}
             />
             <Textarea
               label="Description"
               defaultValue={description ? description : ""}
               description={`${descriptionState?.length} / 40`}
+              errorMessage={
+                !isDescriptionValid ? "Description is too long" : ""
+              }
               onChange={(e) => setDescriptionState(e.target.value)}
             />
           </ModalBody>
@@ -178,7 +201,11 @@ export const CardDropdown = ({ session, link }: CardDropdownProps) => {
               Close
             </Button>
 
-            <Button color="primary" onClick={handleSave}>
+            <Button
+              color="primary"
+              onClick={handleSave}
+              isDisabled={!url || !isUrlValid || !isDescriptionValid}
+            >
               Save
             </Button>
           </ModalFooter>
