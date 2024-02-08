@@ -41,7 +41,7 @@ export default function CreatePage() {
   };
 
   const handleShortUrlChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setIsShortUrlValid(validateShortUrl(shortUrl));
+    setShortUrl(e.target.value);
   };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -77,7 +77,6 @@ export default function CreatePage() {
         >
           <Input
             label="URL"
-            value={url}
             placeholder="https://example.com"
             autoComplete="off"
             errorMessage={!isUrlValid ? "Invalid URL" : ""}
@@ -85,14 +84,12 @@ export default function CreatePage() {
           />
           <Input
             label="Short URL"
-            value={shortUrl}
             autoComplete="off"
             errorMessage={!isShortUrlValid ? "Invalid short URL" : ""}
             onChange={handleShortUrlChange}
           />
           <Textarea
             label="Description"
-            value={description}
             autoComplete="off"
             description={`${description.length} / 40`}
             errorMessage={!isDescriptionValid ? "Description is too long" : ""}
