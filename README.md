@@ -1,3 +1,3 @@
 # Short URL 🚀
 
-Next.js, TypeScript, React Query, Tailwind CSS, NextUI, PostgreSQL, Prisma.
+React.js, Next.js, TypeScript, React Query, Tailwind CSS, NextUI, PostgreSQL, Prisma.
