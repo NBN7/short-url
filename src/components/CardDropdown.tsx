@@ -25,6 +25,7 @@ import {
   useDisclosure,
 } from "@nextui-org/modal";
 import { Input, Textarea } from "@nextui-org/input";
+import { Card, CardBody } from "@nextui-org/card";
 
 import QRCode from "react-qr-code";
 
@@ -85,6 +86,13 @@ export const CardDropdown = ({ session, link }: CardDropdownProps) => {
     onClose: onQrCodeClose,
   } = useDisclosure();
 
+  const {
+    isOpen: isDeleteOpen,
+    onOpen: onDeleteOpen,
+    onOpenChange: onDeleteOpenChange,
+    onClose: onDeleteClose,
+  } = useDisclosure();
+
   const handleEdit = () => {
     onEditOpen();
   };
@@ -94,12 +102,17 @@ export const CardDropdown = ({ session, link }: CardDropdownProps) => {
   };
 
   const handleDelete = () => {
-    callDeleteMutation();
+    onDeleteOpen();
   };
 
-  const handleSave = async () => {
+  const handleEditSave = async () => {
     callEditMutation();
     onEditClose();
+  };
+
+  const handleDeleteAccept = () => {
+    callDeleteMutation();
+    onDeleteClose();
   };
 
   useEffect(() => {
@@ -171,7 +184,12 @@ export const CardDropdown = ({ session, link }: CardDropdownProps) => {
 
       <Modal isOpen={isEditOpen} onOpenChange={onEditOpenChange}>
         <ModalContent>
-          <ModalHeader>{`/z/${shortUrl}`}</ModalHeader>
+          <ModalHeader>
+            <p>
+              <span className="text-gray-400">Edit </span>
+              {`/z/${shortUrl}`}
+            </p>
+          </ModalHeader>
           <ModalBody>
             <Input
               label="URL"
@@ -203,7 +221,7 @@ export const CardDropdown = ({ session, link }: CardDropdownProps) => {
 
             <Button
               color="primary"
-              onClick={handleSave}
+              onClick={handleEditSave}
               isDisabled={!url || !isUrlValid || !isDescriptionValid}
             >
               Save
@@ -226,6 +244,32 @@ export const CardDropdown = ({ session, link }: CardDropdownProps) => {
           <ModalFooter>
             <Button variant="light" color="danger" onClick={onQrCodeClose}>
               Close
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
+
+      <Modal isOpen={isDeleteOpen} onOpenChange={onDeleteOpenChange}>
+        <ModalContent>
+          <ModalHeader>
+            <p>
+              <span className="text-gray-400">Delete </span>
+              {`/z/${shortUrl}`}
+            </p>
+          </ModalHeader>
+          <ModalBody>
+            <Card>
+              <CardBody>
+                <p>Are you sure you want to delete this link?</p>
+              </CardBody>
+            </Card>
+          </ModalBody>
+          <ModalFooter>
+            <Button variant="light" color="danger" onClick={onDeleteClose}>
+              Cancel
+            </Button>
+            <Button color="primary" onClick={handleDeleteAccept}>
+              Accept
             </Button>
           </ModalFooter>
         </ModalContent>
