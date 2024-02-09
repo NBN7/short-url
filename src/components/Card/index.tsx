@@ -18,13 +18,14 @@ const Card = ({ link, session }: CardProps) => {
     <CardUI key={link.id}>
       <CardHeader className="justify-between">
         <div className="overflow-hidden">
-          <LinkUI href={`${ROUTES.REDIRECT}/${link.shortUrl}`}>
+          <LinkUI
+            href={`${ROUTES.REDIRECT}/${link.shortUrl}`}
+            className="text-base"
+          >
             {ROUTES.REDIRECT}/{link.shortUrl}
           </LinkUI>
           <p className="text-gray-500 truncate">{link.url}</p>
-          <p className="text-sm text-gray-400 mt-2 truncate">
-            {link.description}
-          </p>
+          <p className="text-gray-400 mt-2 truncate">{link.description}</p>
         </div>
 
         <CardDropdown session={session} link={link} />
