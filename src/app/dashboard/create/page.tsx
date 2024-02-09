@@ -25,16 +25,16 @@ export default function CreatePage() {
   const [shortUrl, setShortUrl] = useState("");
   const [description, setDescription] = useState("");
 
+  const [isUrlValid, setIsUrlValid] = useState(true);
+  const [isShortUrlValid, setIsShortUrlValid] = useState(true);
+  const [isDescriptionValid, setIsDescriptionValid] = useState(true);
+
   const { callCreateMutation } = useCreateLink({
     url,
     shortUrl,
     description,
     authorId: session?.user?.email!,
   });
-
-  const [isUrlValid, setIsUrlValid] = useState(true);
-  const [isShortUrlValid, setIsShortUrlValid] = useState(true);
-  const [isDescriptionValid, setIsDescriptionValid] = useState(true);
 
   const handleUrlChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setUrl(e.target.value);
