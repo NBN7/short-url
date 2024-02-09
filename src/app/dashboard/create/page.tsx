@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 
+import { useGetLinks } from "@/hooks/useGetLinks";
 import { useCreateLink } from "@/hooks/useCreateLink";
 
 import { AboveTheFold } from "@/components/AboveTheFold";
@@ -29,11 +30,14 @@ export default function CreatePage() {
   const [isShortUrlValid, setIsShortUrlValid] = useState(true);
   const [isDescriptionValid, setIsDescriptionValid] = useState(true);
 
+  const { refetch } = useGetLinks({ session });
+
   const { callCreateMutation } = useCreateLink({
     url,
     shortUrl,
     description,
     authorId: session?.user?.email!,
+    refetch,
   });
 
   const handleUrlChange = (e: React.ChangeEvent<HTMLInputElement>) => {

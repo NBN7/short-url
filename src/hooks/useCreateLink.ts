@@ -9,6 +9,7 @@ interface useCreateLinkProps {
   shortUrl: string;
   description: string;
   authorId: string;
+  refetch: () => void;
 }
 
 export const useCreateLink = ({
@@ -16,11 +17,13 @@ export const useCreateLink = ({
   shortUrl,
   description,
   authorId,
+  refetch,
 }: useCreateLinkProps) => {
   const { mutate: callCreateMutation } = useMutation({
     mutationFn: () => createLink({ url, shortUrl, description, authorId }),
     onSuccess: () => {
       toastSuccess("Link created");
+      refetch();
     },
     onError: () => {
       toastError("Failed to create link");
