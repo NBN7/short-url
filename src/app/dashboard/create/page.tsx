@@ -17,7 +17,7 @@ import { Input, Textarea } from "@nextui-org/input";
 import { Button } from "@nextui-org/button";
 
 export default function CreatePage() {
-  const { data: session } = useSession();
+  const { data: session, status } = useSession();
 
   const router = useRouter();
 
@@ -51,6 +51,12 @@ export default function CreatePage() {
 
     router.push(ROUTES.DASHBOARD);
   };
+
+  useEffect(() => {
+    if (status === "unauthenticated") {
+      router.push(ROUTES.HOME);
+    }
+  }, [status]);
 
   useEffect(() => {
     if (url) {
