@@ -1,6 +1,6 @@
 import { useMutation } from "@tanstack/react-query";
 
-import { deleteLink } from "@/utils/deleteLink";
+import { deleteLink } from "@/services/deleteLink";
 
 import { toastSuccess, toastError } from "@/utils/toastNotifications";
 

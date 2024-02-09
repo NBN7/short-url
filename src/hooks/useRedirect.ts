@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 
-import { redirect } from "@/utils/redirect";
+import { redirect } from "@/services/redirect";
 
 interface useRedirectProps {
   shortUrl: string | string[];

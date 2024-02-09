@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 
-import { getLinks } from "@/utils/getLinks";
+import { getLinks } from "@/services/getLinks";
 
 import type { Session } from "next-auth";
 

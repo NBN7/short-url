@@ -1,6 +1,6 @@
 import { useMutation } from "@tanstack/react-query";
 
-import { createLink } from "@/utils/createLink";
+import { createLink } from "@/services/createLink";
 
 import { toastSuccess, toastError } from "@/utils/toastNotifications";
 
