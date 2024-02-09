@@ -1,16 +1,21 @@
 import Link from "next/link";
 
+import { twMerge } from "tailwind-merge";
+
 interface LinkUIProps {
   children: React.ReactNode;
   href: string;
-  size?: string;
+  className?: string;
 }
 
-export const LinkUI = ({ children, href, size }: LinkUIProps) => {
+export const LinkUI = ({ children, href, className }: LinkUIProps) => {
   return (
     <Link
       href={href}
-      className="text-sm hover:opacity-75 transition-all truncate"
+      className={twMerge(
+        "text-sm text-white hover:opacity-75 transition-all truncate",
+        className
+      )}
     >
       {children}
     </Link>
