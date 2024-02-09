@@ -260,7 +260,9 @@ export const CardDropdown = ({ session, link }: CardDropdownProps) => {
           <ModalBody>
             <Card>
               <CardBody>
-                <p>Are you sure you want to delete this link?</p>
+                <p className="text-center">
+                  Are you sure you want to delete this link?
+                </p>
               </CardBody>
             </Card>
           </ModalBody>
