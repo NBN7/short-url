@@ -49,7 +49,11 @@ export const NavbarComponent = () => {
             <>
               {session ? (
                 <Dropdown>
-                  <DropdownTrigger>
+                  <DropdownTrigger
+                    role="button"
+                    aria-haspopup="true"
+                    aria-expanded="false"
+                  >
                     <Avatar
                       className="cursor-pointer"
                       size="sm"

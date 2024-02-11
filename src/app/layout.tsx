@@ -6,7 +6,7 @@ const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Short URL",
-  description: "",
+  description: "Stand out with short links",
 };
 
 import { Providers } from "./Providers";
