@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useId } from "react";
 
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
@@ -21,6 +21,8 @@ export default function CreatePage() {
   const { data: session, status } = useSession();
 
   const router = useRouter();
+
+  const id = useId();
 
   const [url, setUrl] = useState("");
   const [shortUrl, setShortUrl] = useState("");
@@ -86,6 +88,7 @@ export default function CreatePage() {
           onSubmit={handleSubmit}
         >
           <Input
+            id={`${id}create-url-input`}
             label="URL"
             placeholder="https://example.com"
             autoComplete="off"
@@ -93,12 +96,14 @@ export default function CreatePage() {
             onChange={handleUrlChange}
           />
           <Input
+            id={`${id}create-short-url-input`}
             label="Short URL"
             autoComplete="off"
             errorMessage={!isShortUrlValid ? "Invalid short URL" : ""}
             onChange={handleShortUrlChange}
           />
           <Textarea
+            id={`${id}create-description-input`}
             label="Description"
             autoComplete="off"
             description={`${description.length} / 40`}

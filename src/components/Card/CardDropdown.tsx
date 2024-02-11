@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useId } from "react";
 
 import { useGetLinks } from "@/hooks/useGetLinks";
 import { useEditLink } from "@/hooks/useEditLink";
@@ -47,6 +47,8 @@ interface CardDropdownProps {
 
 export const CardDropdown = ({ session, link }: CardDropdownProps) => {
   const { shortUrl, url, description } = link;
+
+  const id = useId();
 
   const [urlState, setUrlState] = useState(url);
   const [descriptionState, setDescriptionState] = useState(description);
@@ -192,12 +194,14 @@ export const CardDropdown = ({ session, link }: CardDropdownProps) => {
           </ModalHeader>
           <ModalBody>
             <Input
+              id={`${id}edit-url-input`}
               label="URL"
               defaultValue={url}
               errorMessage={!isUrlValid ? "Invalid URL" : ""}
               onChange={(e) => setUrlState(e.target.value)}
             />
             <Textarea
+              id={`${id}edit-description-input`}
               label="Description"
               defaultValue={description ? description : ""}
               description={`${descriptionState?.length} / 40`}
