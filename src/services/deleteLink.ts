@@ -5,7 +5,7 @@ interface DeleteLinkProps {
 
 export const deleteLink = async ({ shortUrl, authorId }: DeleteLinkProps) => {
   try {
-    const res = await fetch(`/api/urls/${shortUrl}`, {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/urls/${shortUrl}`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",

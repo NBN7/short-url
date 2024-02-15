@@ -4,7 +4,7 @@ interface RedirectProps {
 
 export const redirect = async ({ shortUrl }: RedirectProps) => {
   try {
-    const res = await fetch(`/api/urls/${shortUrl}`, {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/urls/${shortUrl}`, {
       mode: "no-cors",
       headers: {
         "Access-Control-Allow-Origin": "*",

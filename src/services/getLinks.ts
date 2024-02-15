@@ -11,7 +11,7 @@ export const getLinks = async ({
   try {
     if (!session) return null;
 
-    const res = await fetch(`/api/urls/user/${session.user?.email}`);
+    const res = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/urls/user/${session.user?.email}`);
     const data = await res.json();
 
     return data;
