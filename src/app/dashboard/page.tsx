@@ -11,8 +11,7 @@ import { Dashboard } from "@/components/Dashboard";
 import { ROUTES } from "@/constants/routes";
 
 export default function DashboardPage() {
-  const { data: session } = useSession();
-  const { status } = useSession();
+  const { data: session, status } = useSession();
 
   const router = useRouter();
 
