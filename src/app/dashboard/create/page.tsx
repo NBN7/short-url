@@ -59,8 +59,10 @@ export default function CreatePage() {
   };
 
   useEffect(() => {
-    if (status === "unauthenticated") {
-      router.push(ROUTES.HOME);
+    if (status) {
+      if (status === "unauthenticated") {
+        router.push(ROUTES.HOME);
+      }
     }
   }, [status, router]);
 

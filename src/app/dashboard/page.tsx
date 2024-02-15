@@ -16,8 +16,10 @@ export default function DashboardPage() {
   const router = useRouter();
 
   useEffect(() => {
-    if (status === "unauthenticated") {
-      router.push(ROUTES.HOME);
+    if (status) {
+      if (status === "unauthenticated") {
+        router.push(ROUTES.HOME);
+      }
     }
   }, [status, router]);
 

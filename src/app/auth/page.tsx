@@ -29,8 +29,10 @@ export default function AuthPage() {
   };
 
   useEffect(() => {
-    if (status === "authenticated") {
-      router.push(ROUTES.HOME);
+    if (status) {
+      if (status === "authenticated") {
+        router.push(ROUTES.HOME);
+      }
     }
   }, [status, router]);
 
