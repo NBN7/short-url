@@ -15,8 +15,9 @@ interface DashboardProps {
 
 export const Dashboard = ({ session }: DashboardProps) => {
   const { links } = useGetLinks({ session });
+  console.log(links);
 
-  // const reversedLinks = links ? [...links].reverse() : [];
+  const reversedLinks = links ? [...links].reverse() : [];
 
   return (
     <section className="w-full flex flex-col gap-6 mt-6">
@@ -26,7 +27,7 @@ export const Dashboard = ({ session }: DashboardProps) => {
             <CardEmpty />
           ) : (
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-3">
-              {links.map((link: Link) => (
+              {reversedLinks.map((link: Link) => (
                 <Suspense key={link.id} fallback={<CardSkeleton />}>
                   <Card link={link} session={session} />
                 </Suspense>
