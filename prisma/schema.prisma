@@ -5,6 +5,13 @@ generator client {
   provider = "prisma-client-js"
 }
 
+// development
+// datasource db {
+//   provider = "postgresql"
+//   url      = env("DATABASE_URL")
+// }
+
+// production
 datasource db {
   provider = "postgresql"
   url = env("POSTGRES_PRISMA_URL") // uses connection pooling
