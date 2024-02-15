@@ -58,13 +58,13 @@ export default function CreatePage() {
     router.push(ROUTES.DASHBOARD);
   };
 
-  useEffect(() => {
-    if (status) {
-      if (status === "unauthenticated") {
-        router.push(ROUTES.HOME);
-      }
-    }
-  }, [status, router]);
+  // useEffect(() => {
+  //   if (status) {
+  //     if (status === "unauthenticated") {
+  //       router.push(ROUTES.HOME);
+  //     }
+  //   }
+  // }, [status, router]);
 
   useEffect(() => {
     if (url) {

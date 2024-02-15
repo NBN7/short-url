@@ -28,13 +28,11 @@ export default function AuthPage() {
     setIsLoading(false);
   };
 
-  useEffect(() => {
-    if (status) {
-      if (status === "authenticated") {
-        router.push(ROUTES.HOME);
-      }
-    }
-  }, [status, router]);
+  // useEffect(() => {
+  //   if (status === "authenticated") {
+  //     router.push(ROUTES.HOME);
+  //   }
+  // }, [status, router]);
 
   return (
     <AboveTheFold
