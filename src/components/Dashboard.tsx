@@ -15,7 +15,6 @@ interface DashboardProps {
 
 export const Dashboard = ({ session }: DashboardProps) => {
   const { links } = useGetLinks({ session });
-  console.log(links);
 
   const reversedLinks = links ? [...links].reverse() : [];
 

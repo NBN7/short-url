@@ -12,7 +12,7 @@ export const useGetLinks = ({ session }: useLinksProps) => {
   const {
     isLoading,
     isError,
-    data: links,
+    data: links = [],
     refetch,
   } = useQuery({
     queryKey: ["links"],
