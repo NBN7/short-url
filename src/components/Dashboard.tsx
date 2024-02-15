@@ -14,7 +14,6 @@ interface DashboardProps {
 }
 
 export const Dashboard = ({ session }: DashboardProps) => {
-  console.log(session);
   const { links } = useGetLinks({ session });
 
   const reversedLinks = links ? [...links].reverse() : [];
@@ -27,12 +26,11 @@ export const Dashboard = ({ session }: DashboardProps) => {
             <CardEmpty />
           ) : (
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-3">
-              {Array.isArray(reversedLinks) &&
-                reversedLinks.map((link: Link) => (
-                  <Suspense key={link.id} fallback={<CardSkeleton />}>
-                    <Card link={link} session={session} />
-                  </Suspense>
-                ))}
+              {reversedLinks.map((link: Link) => (
+                <Suspense key={link.id} fallback={<CardSkeleton />}>
+                  <Card link={link} session={session} />
+                </Suspense>
+              ))}
             </div>
           )}
         </>
