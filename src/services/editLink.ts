@@ -12,7 +12,7 @@ export const editLink = async ({
   authorId,
 }: EditLinkProps) => {
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/urls/${shortUrl}`, {
+    const res = await fetch(`/api/urls/${shortUrl}`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",

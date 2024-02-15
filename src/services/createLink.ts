@@ -12,7 +12,7 @@ export const createLink = async ({
   authorId,
 }: CreateLinkProps) => {
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/urls/${shortUrl}`, {
+    const res = await fetch(`/api/urls/${shortUrl}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
