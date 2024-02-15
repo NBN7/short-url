@@ -20,7 +20,7 @@ export default function DashboardPage() {
     if (status === "unauthenticated") {
       router.push(ROUTES.HOME);
     }
-  }, [status]);
+  }, [status, router]);
 
   const props = {
     title: "Dashboard",
