@@ -1,10 +1,10 @@
-import { Suspense, lazy } from "react";
+import { lazy } from "react";
 
 import { useGetLinks } from "@/hooks/useGetLinks";
 
 const Card = lazy(() => import("./Card/index"));
-import { CardSkeleton } from "./Card/CardSkeleton";
 import { CardEmpty } from "./Card/CardEmpty";
+import { SuspenseWrapper } from "./SuspenseWrapper";
 
 import type { Link } from "@prisma/client";
 import type { Session } from "next-auth";
@@ -25,9 +25,9 @@ export const Dashboard = ({ session }: DashboardProps) => {
       ) : (
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-3">
           {reversedLinks?.map((link: Link) => (
-            <Suspense key={link.id} fallback={<CardSkeleton />}>
+            <SuspenseWrapper key={link.id}>
               <Card link={link} session={session} />
-            </Suspense>
+            </SuspenseWrapper>
           ))}
         </div>
       )}
