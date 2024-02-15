@@ -15,13 +15,13 @@ export default function DashboardPage() {
 
   const router = useRouter();
 
-  // useEffect(() => {
-  //   if (status) {
-  //     if (status === "unauthenticated") {
-  //       router.push(ROUTES.HOME);
-  //     }
-  //   }
-  // }, [status, router]);
+  useEffect(() => {
+    if (status) {
+      if (status === "unauthenticated") {
+        router.push(ROUTES.HOME);
+      }
+    }
+  }, [status, router]);
 
   return (
     <AboveTheFold title="Dashboard">
