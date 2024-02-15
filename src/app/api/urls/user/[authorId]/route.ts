@@ -14,7 +14,7 @@ export async function GET(req: NextRequest, { params }: { params: Params }) {
       },
     });
 
-    return NextResponse.json([]);
+    return NextResponse.json(urls);
   } catch (error) {
     return NextResponse.json(
       { error: "Internal Server Error" },
