@@ -20,11 +20,6 @@ export default function AuthPage() {
 
   const [isLoading, setIsLoading] = useState(false);
 
-  const props = {
-    title: "Welcome!",
-    description: "Sign In to make the most of the app",
-  };
-
   const handleClick = async () => {
     setIsLoading(true);
 
@@ -40,7 +35,10 @@ export default function AuthPage() {
   }, [status, router]);
 
   return (
-    <AboveTheFold {...props}>
+    <AboveTheFold
+      title="Welcome!"
+      description="Sign In to make the most of the app"
+    >
       <Button
         className="mt-10"
         variant="light"

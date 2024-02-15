@@ -22,12 +22,8 @@ export default function DashboardPage() {
     }
   }, [status, router]);
 
-  const props = {
-    title: "Dashboard",
-  };
-
   return (
-    <AboveTheFold {...props}>
+    <AboveTheFold title="Dashboard">
       <Dashboard session={session} />
     </AboveTheFold>
   );

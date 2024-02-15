@@ -10,17 +10,13 @@ import { FaGithub } from "react-icons/fa";
 import { FaLinkedin } from "react-icons/fa";
 
 export default function HomePage() {
-  const props = {
-    title: "Stand out with short links",
-    description:
-      "Impress with powerful links. Our URL shortener provides the simplest and most effective way to share your content.",
-    short: true,
-  };
-
   const iconSize = "20px";
 
   return (
-    <AboveTheFold {...props}>
+    <AboveTheFold
+      title="Stand out with short links"
+      description="Impress with powerful links. Our URL shortener provides the simplest and most effective way to share your content."
+    >
       <div className="mt-10">
         <Link href={LINKS.GITHUB} target="_blank">
           <Button
