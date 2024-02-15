@@ -37,7 +37,7 @@ export default function AuthPage() {
     if (status === "authenticated") {
       router.push(ROUTES.HOME);
     }
-  }, [status]);
+  }, [status, router]);
 
   return (
     <AboveTheFold {...props}>
